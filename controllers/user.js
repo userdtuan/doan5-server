@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import UserModal from "../models/user.js";
+import UserDetailModal from "../models/userDetail.js";
 
 const secret = 'test';
 
@@ -16,7 +17,8 @@ export const signin = async (req, res) => {
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
     if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid credentials" });
-
+    const details = await UserDetailModal.findOne(oldUser.id);
+    console.log(details);
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "1h" });
     res.status(200).json({ result: oldUser, token });
   } catch (err) {
@@ -40,7 +42,9 @@ export const google_signin = async (req, res) => {
     }
     else
       result = oldUser;
-    res.status(201).json({ result, token });
+
+    const details = await UserDetailModal.findOne(oldUser.id);
+    res.status(201).json({ result, token, details:details });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
   }
