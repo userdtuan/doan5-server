@@ -17,10 +17,10 @@ export const signin = async (req, res) => {
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
     if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid credentials" });
-    const details = await UserDetailModal.findOne(oldUser.id);
+    const details = await UserDetailModal.findOne({user_id:oldUser._id});
     console.log(details);
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "1h" });
-    res.status(200).json({ result: oldUser, token });
+    res.status(200).json({ result: oldUser, token, details:details});
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -42,8 +42,9 @@ export const google_signin = async (req, res) => {
     }
     else
       result = oldUser;
-
-    const details = await UserDetailModal.findOne(oldUser.id);
+    
+    const details = await UserDetailModal.findOne({user_id:oldUser._id});
+    console.log({ result, token, details:details });
     res.status(201).json({ result, token, details:details });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
@@ -70,3 +71,22 @@ export const signup = async (req, res) => {
     console.log(error);
   }
 };
+
+export const udateUserDetails = async (req, res) => {
+  const { user_id, full_name, address, phone, token } = req.body;
+  // console.log({ full_name, address, phone, user_id })
+  try {
+    const oldUser = await UserDetailModal.findOne({ user_id });
+    const user = await UserModal.findOne({ _id:user_id });
+    if (!user) return res.status(400).json({ message: "User doesn't exists" });
+    if (oldUser) return res.status(401).json({ message: "User Details already exists" });
+    const result = await UserDetailModal.create({ full_name, address, phone, user_id });
+    res.status(201).json({ result:user, token, details:result });
+    // console.log({ message: "Something went right"});
+    // res.status(201).json({ message: "Something went right"});
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+    console.log(error);
+  }
+};
+

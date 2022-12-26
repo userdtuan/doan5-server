@@ -9,7 +9,6 @@ const userDetailSchema = mongoose.Schema({
     ref: 'user',
     required: true
   },
-  sex: { type: Boolean },
   id: { type: String },
 });
 
