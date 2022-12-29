@@ -52,6 +52,7 @@ export const google_signin = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
+  console.log(req)
   const { email, password, firstName, lastName } = req.body;
 
   try {
