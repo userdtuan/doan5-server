@@ -1,1 +1,3 @@
 db.userdetails.deleteMany({})
+db.postmessages.deleteMany({})
+db.postmessages.find()

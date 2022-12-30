@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon index.js",
-    "console": "mongo mongodb+srv://dttuandb:dttuanpwd@cluster0.b9heuko.mongodb.net/"
+    "console": "mongo mongodb://localhost:27017/test"
   },
   "author": "",
   "license": "ISC",

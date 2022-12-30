@@ -28,9 +28,11 @@ export const getArticle = async (req, res) => {
 }
 
 export const createArticle = async (req, res) => {
-    const post = req.body;
+    console.log("got here")
+    const {post} = req.body;
+    console.log(post)
     const newPostMessage = new Article({ ...post, user_id: req.userId, createdAt: new Date().toISOString() })
-    console.log(req.userId)
+    console.log(newPostMessage)
     try {
         await newPostMessage.save();
         res.status(201).json("newPostMessage" );
