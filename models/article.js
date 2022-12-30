@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const articleSchema = mongoose.Schema({
-    title: String,
     user_id: String,
     gac_lung: Boolean,
     nau_an: Boolean,
@@ -12,6 +11,8 @@ const articleSchema = mongoose.Schema({
     so_nguoi: Number,
     image_wc: String,
     image_tu_cua:String,
+    giatien: String,
+    address: String,
     createdAt: {
         type: Date,
         default: new Date(),

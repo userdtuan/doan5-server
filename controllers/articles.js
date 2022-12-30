@@ -35,7 +35,7 @@ export const createArticle = async (req, res) => {
     console.log(newPostMessage)
     try {
         await newPostMessage.save();
-        res.status(201).json("newPostMessage" );
+        res.status(201).json("Create successful" );
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
