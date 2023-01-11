@@ -90,4 +90,14 @@ export const udateUserDetails = async (req, res) => {
     console.log(error);
   }
 };
+export const getUserInfor = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+      const post = await UserDetailModal.findOne({user_id:id});
+      res.status(200).json(post);
+  } catch (error) {
+      res.status(404).json({ message: error.message });
+  }
+};
 

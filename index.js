@@ -18,8 +18,8 @@ app.use('/posts', postRoutes);
 app.use("/user", userRouter);
 app.use('/articles', articleRouter);
 
-const CONNECTION_URL = 'mongodb+srv://dttuandb:dttuanpwd@cluster0.b9heuko.mongodb.net/?retryWrites=true&w=majority';
-// const CONNECTION_URL = 'mongodb://localhost:27017/test';
+// const CONNECTION_URL = 'mongodb+srv://dttuandb:dttuanpwd@cluster0.b9heuko.mongodb.net/?retryWrites=true&w=majority';
+const CONNECTION_URL = 'mongodb://localhost:27017/test';
 
 const PORT = process.env.PORT|| 5000;
 

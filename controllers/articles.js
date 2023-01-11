@@ -7,7 +7,7 @@ const router = express.Router();
 
 export const getArticles = async (req, res) => { 
     try {
-        const postMessages = await Article.find();
+        const postMessages = await Article.find({public:true});
                 
         res.status(200).json(postMessages);
     } catch (error) {
@@ -27,6 +27,38 @@ export const getArticle = async (req, res) => {
     }
 }
 
+export const publicArticle = async (req, res) => {
+    const { id, status } = req.params;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+    await Article.findByIdAndUpdate(id, { public: status });
+
+    res.status(200).json({message:"update sucess"});
+}
+
+export const removeArticle = async (req, res) => {
+    const { id } = req.params;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+    await Article.findByIdAndRemove(id);
+
+    res.status(200).json({message:"delete sucess"});
+}
+
+export const getArticlesById = async (req, res) => { 
+    const { id } = req.params;
+
+    try {
+        const post = await Article.find({user_id:id});
+        
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 export const createArticle = async (req, res) => {
     console.log("got here")
     const {post} = req.body;
@@ -39,6 +71,27 @@ export const createArticle = async (req, res) => {
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
+}
+// export const updatePost = async (req, res) => {
+//     const { id } = req.params;
+//     const { title, message, creator, selectedFile, tags } = req.body;
+    
+//     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+//     const updatedPost = { creator, title, message, tags, selectedFile, _id: id };
+
+//     await PostMessage.findByIdAndUpdate(id, updatedPost, { new: true });
+
+//     res.json(updatedPost);
+// }
+export const updateArticle = async (req, res) => {
+    console.log("got here")
+    const {post} = req.body;
+    const id = post._id
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    await Article.findByIdAndUpdate(id, post, { new: true });
+    res.json({message:"update success"});
+
 }
 
 // export const updateArticle = async (req, res) => {

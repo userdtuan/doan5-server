@@ -1,3 +1,7 @@
 db.userdetails.deleteMany({})
-db.postmessages.deleteMany({})
+db.articles.deleteMany({})
 db.postmessages.find()
+db.articles.find({user_id:"63ad6b90efa9a33a100c643"})
+db.articles.find({user_id:"63ad6b90efa9a33a100c6435", gac_lung:true})
+db.articles.find().skip((3 * 1) - 3) .limit(3)
+            .find().skip((perPage * page) - perPage).limit(perPage)
