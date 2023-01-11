@@ -45,7 +45,8 @@ export const google_signin = async (req, res) => {
     
     const details = await UserDetailModal.findOne({user_id:oldUser._id});
     console.log({ result, token, details:details });
-    res.status(201).json({ result, token, details:details });
+    const tokenn = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "1h" });
+    res.status(201).json({ result, token:tokenn, details:details });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
   }
