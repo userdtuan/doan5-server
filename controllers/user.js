@@ -37,7 +37,8 @@ export const google_signin = async (req, res) => {
     const oldUser = await UserModal.findOne({ email });
     let result  = null;
     if (!oldUser){
-      result = await UserModal.create({ email, name, google_signin : true });
+      
+      result = await UserModal.create({ email, name, google_signin : true,createdAt: new Date().toISOString()  });
       console.log("im here");
     }
     else
@@ -63,7 +64,7 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const result = await UserModal.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
+    const result = await UserModal.create({ email, password: hashedPassword, name: `${firstName} ${lastName}`,createdAt: new Date().toISOString() });
 
     const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
     console.log(token);
@@ -91,6 +92,21 @@ export const udateUserDetails = async (req, res) => {
     console.log(error);
   }
 };
+
+export const updateDetail = async (req, res) => {
+    const { user_id, full_name, address, phone, token } = req.body;
+    try {
+      const user = await UserModal.findOne({ _id:user_id });
+      const oldUser = await UserDetailModal.findOne({ user_id });
+      const result = await UserDetailModal.findByIdAndUpdate(oldUser._id,{ full_name, address, phone, user_id },  { new: true });
+      res.status(201).json({ result:user, token, details:result });
+
+    } catch (error) {
+      res.status(500).json({ message: "Something went wrong" });
+      console.log(error);
+    }
+}
+
 export const getUserInfor = async (req, res) => {
   const { id } = req.params;
 

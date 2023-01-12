@@ -3,11 +3,9 @@ import mongoose from 'mongoose';
 const articleSchema = mongoose.Schema({
     user_id: String,
     gac_lung: Boolean,
-
     wifi: Boolean,
     may_giat: Boolean,
     thang_may: Boolean,
-
     nau_an: Boolean,
     image: String,
     tieude: String,

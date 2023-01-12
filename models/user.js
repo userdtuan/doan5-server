@@ -6,6 +6,10 @@ const userSchema = mongoose.Schema({
   password: { type: String},
   google_signin: { type: Boolean, default: false },
   id: { type: String },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+},
 });
 
 export default mongoose.model("User", userSchema);
